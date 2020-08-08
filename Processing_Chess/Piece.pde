@@ -1,4 +1,4 @@
-class Piece {
+abstract class Piece {
     //Instance variables
     String name;
     int xPos, yPos;
@@ -11,4 +11,6 @@ class Piece {
         this.imgpath = imgpath;
         this.name = name;
     }
+    
+    abstract ArrayList<String> getAllowedMoves();
 }
