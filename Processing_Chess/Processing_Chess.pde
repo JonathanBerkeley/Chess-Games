@@ -1,10 +1,16 @@
+final boolean DEV_BOOL = false;
+
 //Globals
 PImage imgload;
 boolean unloaded = true;
 boolean standardConfig = true;
 boolean whitesTurn = true;
-final int PIECE_SIZE = 100;
 PImage tmpload, tmpload2;
+
+final int PIECE_SIZE = 100;
+final int SQUARE_SIZE = 100;
+final color W_TILE = color(245);
+final color B_TILE = color(75);
 
 King bk, wk;
 Queen bq, wq;
@@ -88,23 +94,22 @@ void setup() {
     //Draw board
     size(800, 800);
     noStroke();
-    fill(245);
+    fill(W_TILE);
 
     //White squares
     boolean whiteNext = true;
     int spacingx, spacingy;
     spacingx = 0;
     spacingy = 0;
-    int squareSize = 100;
 
     for (int z = 0; z < 8; ++z) {
         for (int i = 0; i < 4; ++i) {
-            rect(spacingx, spacingy, squareSize, squareSize);
-            spacingx += squareSize * 2;
+            rect(spacingx, spacingy, SQUARE_SIZE, SQUARE_SIZE);
+            spacingx += SQUARE_SIZE * 2;
         }
-        spacingy += squareSize;
+        spacingy += SQUARE_SIZE;
         if (whiteNext) {
-            spacingx = squareSize;
+            spacingx = SQUARE_SIZE;
         } else {
             spacingx = 0;
         }
@@ -112,19 +117,19 @@ void setup() {
     }
 
     //Black squares
-    fill(75);
-    spacingx = squareSize;
+    fill(B_TILE);
+    spacingx = SQUARE_SIZE;
     spacingy = 0;
     for (int z = 0; z < 8; ++z) {
         for (int i = 0; i < 4; ++i) {
-            rect(spacingx, spacingy, squareSize, squareSize);
-            spacingx += squareSize * 2;
+            rect(spacingx, spacingy, SQUARE_SIZE, SQUARE_SIZE);
+            spacingx += SQUARE_SIZE * 2;
         }
-        spacingy += squareSize;
+        spacingy += SQUARE_SIZE;
         if (whiteNext) {
             spacingx = 0;
         } else {
-            spacingx = squareSize;
+            spacingx = SQUARE_SIZE;
         }
         whiteNext = !whiteNext;
     }
@@ -162,11 +167,9 @@ void setup() {
 }
 
 void mousePressed() {
+    //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
 
-    
-    
-    //Checks what piece is clicked on
     if (whitesTurn) {
         for (Piece p : whitePieces) {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
@@ -178,8 +181,11 @@ void mousePressed() {
     }
 }
 
-
 void draw() {
+    if (DEV_BOOL) {
+        fill(B_TILE);
+        rect(100, 0, SQUARE_SIZE, SQUARE_SIZE);
+    }
 }
 
 //Helper functions
@@ -187,7 +193,7 @@ void draw() {
 //Converts pixel coordinates to chess tile representation (e.g (x: 0, y: 0) = a8)
 String getChessSquare(int x, int y) {
     String result = "";
-    switch (x / PIECE_SIZE) {
+    switch (x / SQUARE_SIZE) {
         case 0:
             result += 'a';
             break;
@@ -215,8 +221,8 @@ String getChessSquare(int x, int y) {
         default:
             break;
     }
-    
-    switch (y / PIECE_SIZE) {
+
+    switch (y / SQUARE_SIZE) {
         case 0:
             result += '8';
             break;

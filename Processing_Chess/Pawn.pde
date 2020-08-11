@@ -7,6 +7,7 @@ class Pawn extends Piece {
     @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
+        legalMoves.add("w");
         return legalMoves;
     }
 }
