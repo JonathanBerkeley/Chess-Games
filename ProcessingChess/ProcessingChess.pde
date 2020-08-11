@@ -1,11 +1,8 @@
-final boolean DEV_BOOL = false;
-
 //Globals
-PImage imgload;
+final boolean DEV_BOOL = false;
 boolean unloaded = true;
-boolean standardConfig = true;
-boolean whitesTurn = true;
-PImage tmpload, tmpload2;
+boolean whitesTurn;
+boolean chosePiece = false;
 
 final int PIECE_SIZE = 100;
 final int SQUARE_SIZE = 100;
@@ -27,8 +24,12 @@ ArrayList<Piece> whitePieces = new ArrayList<Piece>();
 ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
 void setup() {
-    println("Hello, world");
-
+    boolean standardConfig = true;
+    if (standardConfig) {
+         whitesTurn = true;   
+    }
+    PImage tmpload, tmpload2;
+    
     if (standardConfig) {
         //Load pieces
         bk = new King(400, 0, loadImage("pieces/black/bk.png"));
@@ -45,10 +46,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wp.png");
         int positionalIncrease = 0;
         for (int i = 0; i < 8; ++i) {
-            bpawns[i] = new Pawn(positionalIncrease, 100, tmpload);
+            bpawns[i] = new Pawn(positionalIncrease, 100, tmpload, false);
             blackPieces.add(bpawns[i]);
 
-            wpawns[i] = new Pawn(positionalIncrease, 600, tmpload2);
+            wpawns[i] = new Pawn(positionalIncrease, 600, tmpload2, true);
             whitePieces.add(wpawns[i]);
             positionalIncrease += 100;
         }
@@ -164,6 +165,7 @@ void setup() {
         }
         unloaded = !unloaded;
     }
+    println("Finished setting up");
 }
 
 void mousePressed() {
@@ -174,10 +176,17 @@ void mousePressed() {
         for (Piece p : whitePieces) {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
                 println(p.name, p.xPos, p.yPos, tileClicked);
+                println("Legal moves: ", p.getAllowedMoves());
             }
             //println(p.name, "is at", p.xPos, p.yPos, "which is chess tile", getChessSquare(p.xPos, p.yPos));
         }
     } else {
+        for (Piece p : blackPieces) {
+            if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
+                println(p.name, p.xPos, p.yPos, tileClicked);
+                println("Legal moves: ", p.getAllowedMoves());
+            }
+        }
     }
 }
 
@@ -186,69 +195,4 @@ void draw() {
         fill(B_TILE);
         rect(100, 0, SQUARE_SIZE, SQUARE_SIZE);
     }
-}
-
-//Helper functions
-
-//Converts pixel coordinates to chess tile representation (e.g (x: 0, y: 0) = a8)
-String getChessSquare(int x, int y) {
-    String result = "";
-    switch (x / SQUARE_SIZE) {
-        case 0:
-            result += 'a';
-            break;
-        case 1:
-            result += 'b';
-            break;
-        case 2:
-            result += 'c';
-            break;
-        case 3:
-            result += 'd';
-            break;
-        case 4:
-            result += 'e';
-            break;
-        case 5:
-            result += 'f';
-            break;
-        case 6:
-            result += 'g';
-            break;
-        case 7:
-            result += 'h';
-            break;
-        default:
-            break;
-    }
-
-    switch (y / SQUARE_SIZE) {
-        case 0:
-            result += '8';
-            break;
-        case 1:
-            result += '7';
-            break;
-        case 2:
-            result += '6';
-            break;
-        case 3:
-            result += '5';
-            break;
-        case 4:
-            result += '4';
-            break;
-        case 5:
-            result += '3';
-            break;
-        case 6:
-            result += '2';
-            break;
-        case 7:
-            result += '1';
-            break;
-        default:
-            break;
-    }
-    return result;
 }
