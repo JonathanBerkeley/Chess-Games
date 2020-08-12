@@ -1,11 +1,11 @@
 class Pawn extends Piece {
-
+    
     Pawn(int xp, int yp, PImage ipath, boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Pawn");
     }
 
     @Override
-        ArrayList<String> getAllowedMoves() {
+    ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
         //If black pawn
         if (!this.isWhite) {
@@ -23,4 +23,5 @@ class Pawn extends Piece {
         }
         return legalMoves;
     }
+    
 }

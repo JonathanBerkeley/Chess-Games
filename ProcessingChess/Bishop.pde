@@ -9,4 +9,5 @@ class Bishop extends Piece {
         ArrayList<String> legalMoves = new ArrayList<String>();
         return legalMoves;
     }
+
 }

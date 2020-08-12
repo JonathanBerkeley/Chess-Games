@@ -4,14 +4,14 @@ abstract class Piece {
     int xPos, yPos;
     boolean isWhite;
     PImage imgpath;
-    
+
     Piece(int xPos, int yPos, PImage imgpath, String name) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.imgpath = imgpath;
         this.name = name;
     }
-    
+
     Piece(int xPos, int yPos, PImage imgpath, boolean isWhite, String name) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -19,6 +19,6 @@ abstract class Piece {
         this.name = name;
         this.isWhite = isWhite;
     }
-    
+
     abstract ArrayList<String> getAllowedMoves();
 }
