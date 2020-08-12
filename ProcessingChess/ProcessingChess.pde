@@ -184,7 +184,7 @@ void mousePressed() {
                 println("Move", p.name, getChessSquare(p.xPos, p.yPos), "to", tileClicked);
 
                 //rerender piece to new square and redraw square on previous spot
-                fill(B_TILE);
+                fill(get(p.xPos, p.yPos));
                 rect(p.xPos, p.yPos, SQUARE_SIZE, SQUARE_SIZE);
                 int[] tileClickedCoords = revertToCoords(tileClicked);
                 image(p.imgpath, tileClickedCoords[0], tileClickedCoords[1], PIECE_SIZE, PIECE_SIZE);
@@ -204,7 +204,7 @@ void mousePressed() {
                 println("Move", p.name, getChessSquare(p.xPos, p.yPos), "to", tileClicked);
 
                 //rerender piece to new square and redraw square on previous spot
-                fill(B_TILE);
+                fill(get(p.xPos, p.yPos));
                 rect(p.xPos, p.yPos, SQUARE_SIZE, SQUARE_SIZE);
                 int[] tileClickedCoords = revertToCoords(tileClicked);
                 image(p.imgpath, tileClickedCoords[0], tileClickedCoords[1], PIECE_SIZE, PIECE_SIZE);
