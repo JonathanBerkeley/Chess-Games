@@ -168,29 +168,33 @@ void setup() {
     println("Finished setting up");
 }
 
-boolean clickedPiece = false;
+Piece clickedPiece;
 void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
 
-
     if (whitesTurn) {
         for (Piece p : whitePieces) {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
-                println(p.name, tileClicked);
+                println(p.name, tileClicked, p);
                 println("Legal moves: ", p.getAllowedMoves());
-                clickedPiece = true;
-            } else if (clickedPiece && p.getAllowedMoves().contains(tileClicked)) {
+                clickedPiece = p;
+            } else if (clickedPiece != null && p.getAllowedMoves().contains(tileClicked)) {
                 println("Move", p.name, getChessSquare(p.xPos, p.yPos), "to", tileClicked);
 
                 //rerender piece to new square and redraw square on previous spot
                 fill(get(p.xPos, p.yPos));
                 rect(p.xPos, p.yPos, SQUARE_SIZE, SQUARE_SIZE);
                 int[] tileClickedCoords = revertToCoords(tileClicked);
+                println(tileClickedCoords[0], tileClickedCoords[1]);
                 image(p.imgpath, tileClickedCoords[0], tileClickedCoords[1], PIECE_SIZE, PIECE_SIZE);
 
+                //Set piece position to new position
+                p.xPos = tileClickedCoords[0];
+                p.yPos = tileClickedCoords[1];
+                
                 //cleanup
-                clickedPiece = false;
+                clickedPiece = null;
                 whitesTurn = false;
             }
         }
@@ -199,8 +203,8 @@ void mousePressed() {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
                 println(p.name, p.xPos, p.yPos, tileClicked);
                 println("Legal moves: ", p.getAllowedMoves());
-                clickedPiece = true;
-            } else if (clickedPiece && p.getAllowedMoves().contains(tileClicked)) {
+                clickedPiece = p;
+            } else if (clickedPiece != null && p.getAllowedMoves().contains(tileClicked)) {
                 println("Move", p.name, getChessSquare(p.xPos, p.yPos), "to", tileClicked);
 
                 //rerender piece to new square and redraw square on previous spot
@@ -208,9 +212,13 @@ void mousePressed() {
                 rect(p.xPos, p.yPos, SQUARE_SIZE, SQUARE_SIZE);
                 int[] tileClickedCoords = revertToCoords(tileClicked);
                 image(p.imgpath, tileClickedCoords[0], tileClickedCoords[1], PIECE_SIZE, PIECE_SIZE);
-
+                
+                //Set piece position to new position
+                p.xPos = tileClickedCoords[0];
+                p.yPos = tileClickedCoords[1];
+                
                 //cleanup
-                clickedPiece = false;
+                clickedPiece = null;
                 whitesTurn = true;
             }
         }
