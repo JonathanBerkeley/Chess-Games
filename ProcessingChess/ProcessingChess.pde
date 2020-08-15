@@ -20,8 +20,8 @@ Rook wrooks[] = new Rook[2];
 Pawn bpawns[] = new Pawn[8];
 Pawn wpawns[] = new Pawn[8];
 
-ArrayList<Piece> whitePieces = new ArrayList<Piece>();
-ArrayList<Piece> blackPieces = new ArrayList<Piece>();
+public ArrayList<Piece> whitePieces = new ArrayList<Piece>();
+public ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
 void setup() {
     boolean standardConfig = true;
