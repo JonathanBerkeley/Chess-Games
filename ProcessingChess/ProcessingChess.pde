@@ -4,8 +4,10 @@ boolean unloaded = true;
 boolean whitesTurn;
 boolean chosePiece = false;
 
-final int PIECE_SIZE = 100;
-final int SQUARE_SIZE = 100;
+final boolean goFullscreen = false;
+final int GAME_SIZE = 1;
+final int PIECE_SIZE = 100 / GAME_SIZE;
+final int SQUARE_SIZE = 100 / GAME_SIZE;
 final color W_TILE = color(245);
 final color B_TILE = color(75);
 
@@ -23,6 +25,14 @@ Pawn wpawns[] = new Pawn[8];
 public ArrayList<Piece> whitePieces = new ArrayList<Piece>();
 public ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
+void settings() {
+  if (goFullscreen) {
+    fullScreen();
+  } else {
+    size(800 / GAME_SIZE, 800 / GAME_SIZE);
+  }
+}
+
 void setup() {
     boolean standardConfig = true;
     if (standardConfig) {
@@ -32,13 +42,13 @@ void setup() {
 
     if (standardConfig) {
         //Load pieces
-        bk = new King(400, 0, loadImage("pieces/black/bk.png"));
-        bq = new Queen(300, 0, loadImage("pieces/black/bq.png"));
+        bk = new King(400 / GAME_SIZE, 0, loadImage("pieces/black/bk.png"));
+        bq = new Queen(300 / GAME_SIZE, 0, loadImage("pieces/black/bq.png"));
         blackPieces.add(bk);
         blackPieces.add(bq);
 
-        wk = new King(400, 700, loadImage("pieces/white/wk.png"));
-        wq = new Queen(300, 700, loadImage("pieces/white/wq.png"));
+        wk = new King(400 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wk.png"));
+        wq = new Queen(300 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wq.png"));
         whitePieces.add(wk);
         whitePieces.add(wq);
 
@@ -46,10 +56,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wp.png");
         int positionalIncrease = 0;
         for (int i = 0; i < 8; ++i) {
-            bpawns[i] = new Pawn(positionalIncrease, 100, tmpload, false);
+            bpawns[i] = new Pawn(positionalIncrease / GAME_SIZE, 100 / GAME_SIZE, tmpload, false);
             blackPieces.add(bpawns[i]);
 
-            wpawns[i] = new Pawn(positionalIncrease, 600, tmpload2, true);
+            wpawns[i] = new Pawn(positionalIncrease / GAME_SIZE, 600 / GAME_SIZE, tmpload2, true);
             whitePieces.add(wpawns[i]);
             positionalIncrease += 100;
         }
@@ -58,10 +68,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wb.png");
         positionalIncrease = 200;
         for (int i = 0; i < 2; ++i) {
-            bbishops[i] = new Bishop(positionalIncrease, 0, tmpload);
+            bbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 0, tmpload);
             blackPieces.add(bbishops[i]);
 
-            wbishops[i] = new Bishop(positionalIncrease, 700, tmpload2);
+            wbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
             whitePieces.add(wbishops[i]);
             positionalIncrease += 300;
         }
@@ -70,10 +80,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wn.png");
         positionalIncrease = 100;
         for (int i = 0; i < 2; ++i) {
-            bknights[i] = new Knight(positionalIncrease, 0, tmpload);
+            bknights[i] = new Knight(positionalIncrease / GAME_SIZE, 0, tmpload);
             blackPieces.add(bknights[i]);
 
-            wknights[i] = new Knight(positionalIncrease, 700, tmpload2);
+            wknights[i] = new Knight(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
             whitePieces.add(wknights[i]);
             positionalIncrease += 500;
         }
@@ -82,10 +92,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wr.png");
         positionalIncrease = 0;
         for (int i = 0; i < 2; ++i) {
-            brooks[i] = new Rook(positionalIncrease, 0, tmpload);
+            brooks[i] = new Rook(positionalIncrease / GAME_SIZE, 0, tmpload);
             blackPieces.add(brooks[i]);
 
-            wrooks[i] = new Rook(positionalIncrease, 700, tmpload2);
+            wrooks[i] = new Rook(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
             whitePieces.add(wrooks[i]);
             positionalIncrease += 700;
         }
@@ -93,7 +103,6 @@ void setup() {
 
 
     //Draw board
-    size(800, 800);
     noStroke();
     fill(W_TILE);
 
@@ -197,11 +206,11 @@ void mousePressed() {
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
         int[] tileClickedCoords = revertToCoords(tileClicked);
-        image(clickedPiece.imgpath, tileClickedCoords[0], tileClickedCoords[1], PIECE_SIZE, PIECE_SIZE);
+        image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
 
         //Set piece position to new position
-        clickedPiece.xPos = tileClickedCoords[0];
-        clickedPiece.yPos = tileClickedCoords[1];
+        clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
+        clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
 
         //cleanup
         clickedPiece = null;
