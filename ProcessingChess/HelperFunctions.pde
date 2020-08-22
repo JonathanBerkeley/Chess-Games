@@ -71,25 +71,25 @@ int[] revertToCoords(String chessSquare) {
             coords[0] = 0;
             break;
         case "b":
-            coords[0] = 100;
+            coords[0] = SQUARE_SIZE;
             break;
         case "c":
-            coords[0] = 200;
+            coords[0] = SQUARE_SIZE * 2;
             break;
         case "d":
-            coords[0] = 300;
+            coords[0] = SQUARE_SIZE * 3;
             break;
         case "e":
-            coords[0] = 400;
+            coords[0] = SQUARE_SIZE * 4;
             break;
         case "f":
-            coords[0] = 500;
+            coords[0] = SQUARE_SIZE * 5;
             break;
         case "g":
-            coords[0] = 600;
+            coords[0] = SQUARE_SIZE * 6;
             break;
         case "h":
-            coords[0] = 700;
+            coords[0] = SQUARE_SIZE * 7;
             break;
         default:
             break;
@@ -97,25 +97,25 @@ int[] revertToCoords(String chessSquare) {
 
     switch (chessSquare.substring(1)) {
         case "1":
-            coords[1] = 700;
+            coords[1] = SQUARE_SIZE * 7;
             break;
         case "2":
-            coords[1] = 600;
+            coords[1] = SQUARE_SIZE * 6;
             break;
         case "3":
-            coords[1] = 500;
+            coords[1] = SQUARE_SIZE * 5;
             break;
         case "4":
-            coords[1] = 400;
+            coords[1] = SQUARE_SIZE * 4;
             break;
         case "5":
-            coords[1] = 300;
+            coords[1] = SQUARE_SIZE * 3;
             break;
         case "6":
-            coords[1] = 200;
+            coords[1] = SQUARE_SIZE * 2;
             break;
         case "7":
-            coords[1] = 100;
+            coords[1] = SQUARE_SIZE;
             break;
         case "8":
             coords[1] = 0;

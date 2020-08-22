@@ -26,11 +26,11 @@ public ArrayList<Piece> whitePieces = new ArrayList<Piece>();
 public ArrayList<Piece> blackPieces = new ArrayList<Piece>();
 
 void settings() {
-  if (goFullscreen) {
-    fullScreen();
-  } else {
-    size(800 / GAME_SIZE, 800 / GAME_SIZE);
-  }
+    if (goFullscreen) {
+        fullScreen();
+    } else {
+        size(800 / GAME_SIZE, 800 / GAME_SIZE);
+    }
 }
 
 void setup() {
@@ -181,7 +181,8 @@ Piece clickedPiece;
 void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
-
+    //println(mouseX, mouseY, tileClicked);
+    
     if (whitesTurn) {
         for (Piece p : whitePieces) {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
