@@ -7,11 +7,15 @@ class Pawn extends Piece {
     @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
-        String takeSquareL, takeSquareR;
+        String takeSquareL, takeSquareR, tmp;
         
         //If black pawn
         if (!this.isWhite) {
-            legalMoves.add(getChessSquare(xPos, yPos + 100));
+            tmp = getChessSquare(xPos, yPos + 100);
+            //Check if the square is empty
+            if (checkFreeAtSquare(tmp, false)) {
+                legalMoves.add(tmp);
+            }
             if (yPos == 100) {
                 legalMoves.add(getChessSquare(xPos, yPos + 200));
             }
@@ -27,7 +31,11 @@ class Pawn extends Piece {
         }
         //If white pawn
         else {
-            legalMoves.add(getChessSquare(xPos, yPos - 100));
+            tmp = getChessSquare(xPos, yPos - 100);
+            if (checkFreeAtSquare(tmp, true)) {
+                legalMoves.add(tmp);
+            }
+            
             if (yPos == 600) {
                 legalMoves.add(getChessSquare(xPos, yPos - 200));
             }

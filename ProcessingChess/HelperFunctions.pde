@@ -125,3 +125,24 @@ int[] revertToCoords(String chessSquare) {
     }
     return coords;
 }
+
+
+//Checks if square at given position is free of a team (returns true if empty square or ally)
+Boolean checkFreeAtSquare(String square, Boolean isWhitePiece) {
+    Boolean answer = true;
+    if (isWhitePiece) {
+        for (Piece bp : blackPieces) {
+            if (getChessSquare(bp.xPos, bp.yPos).equals(square)) {
+                answer = false;
+            }
+        }
+        
+    } else {
+        for (Piece wp : whitePieces) {
+            if (getChessSquare(wp.xPos, wp.yPos).equals(square)) {
+                answer = false;
+            }
+        }
+    }
+    return answer;
+}

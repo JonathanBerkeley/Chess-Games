@@ -1,5 +1,4 @@
 //Globals
-final boolean DEV_BOOL = false;
 boolean unloaded = true;
 boolean whitesTurn;
 boolean chosePiece = false;
@@ -216,12 +215,14 @@ void mousePressed() {
         //cleanup
         clickedPiece = null;
         whitesTurn = !whitesTurn;
+        
+        //Following code runs after turn
+        turnEnd();
     }
+}
+void turnEnd() {
+    
 }
 
 void draw() {
-    if (DEV_BOOL) {
-        fill(B_TILE);
-        rect(100, 0, SQUARE_SIZE, SQUARE_SIZE);
-    }
 }
