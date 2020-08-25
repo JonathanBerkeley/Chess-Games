@@ -11,7 +11,7 @@ class Pawn extends Piece {
         
         //If black pawn
         if (!this.isWhite) {
-            if (yPos > SQUARE_SIZE * 7) {
+            if (yPos > SQUARE_SIZE * 6) {
                 println("Pawn reached end!");
             }
             

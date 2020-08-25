@@ -244,10 +244,5 @@ void mousePressed() {
     }
 }
 
-void redrawSquare() {
-}
-
-
-
 void draw() {
 }
