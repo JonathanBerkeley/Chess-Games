@@ -181,7 +181,7 @@ void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
     //println(mouseX, mouseY, tileClicked);
-    
+
     if (whitesTurn) {
         for (Piece p : whitePieces) {
             if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
@@ -201,28 +201,53 @@ void mousePressed() {
     }
     if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
         println("Move", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
-
-        //rerender piece to new square and redraw square on previous spot
+        int[] tileClickedCoords = revertToCoords(tileClicked);
+        
+        //Redraw square from square piece moved from
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
-        int[] tileClickedCoords = revertToCoords(tileClicked);
-        image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
-
+       
         //Set piece position to new position
         clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
         clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
 
+        //Check for takes
+        if (whitesTurn) {
+            for (Piece p : blackPieces) {
+                if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
+                    println("White take!");
+
+                    //Move piece offscreen to deadbox
+                    p.xPos = -1000;
+                    p.yPos = -1000;
+                }
+            }
+        } else {
+            for (Piece p : whitePieces) {
+                if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
+                    println("Black take!");
+
+                    p.xPos = -1000;
+                    p.yPos = -1000;
+                }
+            }
+        }
+        
+        //Rerender piece to new square
+        fill(get(clickedPiece.xPos, clickedPiece.yPos));
+        rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
+        image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+
         //cleanup
         clickedPiece = null;
         whitesTurn = !whitesTurn;
-        
-        //Following code runs after turn
-        turnEnd();
     }
 }
-void turnEnd() {
-    
+
+void redrawSquare() {
 }
+
+
 
 void draw() {
 }
