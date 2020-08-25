@@ -3,7 +3,15 @@ class Pawn extends Piece {
     Pawn(int xp, int yp, PImage ipath, boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Pawn");
     }
-
+    
+    boolean reachedEnd() {
+        //TESTING
+        if (this.yPos > SQUARE_SIZE * 6) {
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
@@ -11,10 +19,6 @@ class Pawn extends Piece {
         
         //If black pawn
         if (!this.isWhite) {
-            if (yPos > SQUARE_SIZE * 6) {
-                println("Pawn reached end!");
-            }
-            
             tmp = getChessSquare(xPos, yPos + 100);
             //Check if the square is empty
             if (checkFreeAtSquare(tmp, false)) {
@@ -35,10 +39,6 @@ class Pawn extends Piece {
         }
         //If white pawn
         else {
-            if (yPos < SQUARE_SIZE) {
-                println("Pawn reached end!");
-            }
-            
             tmp = getChessSquare(xPos, yPos - 100);
             if (checkFreeAtSquare(tmp, true)) {
                 legalMoves.add(tmp);
