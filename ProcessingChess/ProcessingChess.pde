@@ -1,7 +1,11 @@
+//Imports
+import processing.sound.*;
+
 //Globals
 boolean unloaded = true;
 boolean whitesTurn;
 boolean chosePiece = false;
+SoundFile[] sfiles = new SoundFile[3];
 
 final boolean goFullscreen = false;
 final int GAME_SIZE = 1;
@@ -38,7 +42,11 @@ void setup() {
         whitesTurn = true;
     }
     PImage tmpload, tmpload2;
-
+    
+    //Sound setup
+    sfiles[0] = new SoundFile(this, "audio/move-self.mp3");
+    sfiles[1] = new SoundFile(this, "audio/capture.mp3");
+    
     if (standardConfig) {
         //Load pieces
         bk = new King(400 / GAME_SIZE, 0, loadImage("pieces/black/bk.png"));
@@ -216,7 +224,9 @@ void mousePressed() {
             for (Piece p : blackPieces) {
                 if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
                     println("White take!");
-
+                    //Play take audio
+                    sfiles[1].play();
+                    
                     //Move piece offscreen to deadbox
                     p.xPos = -1000;
                     p.yPos = -1000;
@@ -226,18 +236,20 @@ void mousePressed() {
             for (Piece p : whitePieces) {
                 if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
                     println("Black take!");
-
+                    sfiles[1].play();
+                    
                     p.xPos = -1000;
                     p.yPos = -1000;
                 }
             }
         }
         
-        //Rerender piece to new square
+        //Rerender piece to new square & play move audio
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
         image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
-
+        sfiles[0].play();
+        
         //cleanup
         clickedPiece = null;
         whitesTurn = !whitesTurn;
