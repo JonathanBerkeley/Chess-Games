@@ -42,11 +42,11 @@ void setup() {
         whitesTurn = true;
     }
     PImage tmpload, tmpload2;
-    
+
     //Sound setup
     sfiles[0] = new SoundFile(this, "audio/move-self.mp3");
     sfiles[1] = new SoundFile(this, "audio/capture.mp3");
-    
+
     if (standardConfig) {
         //Load pieces
         bk = new King(400 / GAME_SIZE, 0, loadImage("pieces/black/bk.png"));
@@ -210,11 +210,11 @@ void mousePressed() {
     if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
         println("Move", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
         int[] tileClickedCoords = revertToCoords(tileClicked);
-        
+
         //Redraw square from square piece moved from
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
-       
+
         //Set piece position to new position
         clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
         clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
@@ -222,34 +222,20 @@ void mousePressed() {
         //Check for takes
         if (whitesTurn) {
             for (Piece p : blackPieces) {
-                if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
-                    println("White take!");
-                    //Play take audio
-                    sfiles[1].play();
-                    
-                    //Move piece offscreen to deadbox
-                    p.xPos = -1000;
-                    p.yPos = -1000;
-                }
+                chk(p);
             }
         } else {
             for (Piece p : whitePieces) {
-                if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
-                    println("Black take!");
-                    sfiles[1].play();
-                    
-                    p.xPos = -1000;
-                    p.yPos = -1000;
-                }
+                chk(p);
             }
         }
-        
+
         //Rerender piece to new square & play move audio
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
         image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
-        sfiles[0].play();
-        
+
+
         //cleanup
         clickedPiece = null;
         whitesTurn = !whitesTurn;
@@ -257,4 +243,17 @@ void mousePressed() {
 }
 
 void draw() {
+}
+
+void chk(Piece p) {
+    if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
+        //Play take audio
+        sfiles[1].play();
+
+        //Move piece offscreen to deadbox
+        p.xPos = -1000;
+        p.yPos = -1000;
+    } else {
+        sfiles[0].play();
+    }
 }
