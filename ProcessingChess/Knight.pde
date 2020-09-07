@@ -1,7 +1,7 @@
 class Knight extends Piece {
     
-    Knight(int xp, int yp, PImage ipath) {
-        super(xp, yp, ipath, "Knight");
+    Knight(int xp, int yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Knight");
     }
     
     @Override

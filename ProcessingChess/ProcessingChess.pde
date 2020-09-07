@@ -50,13 +50,13 @@ void setup() {
 
     if (standardConfig) {
         //Load pieces
-        bk = new King(400 / GAME_SIZE, 0, loadImage("pieces/black/bk.png"));
-        bq = new Queen(300 / GAME_SIZE, 0, loadImage("pieces/black/bq.png"));
+        bk = new King(400 / GAME_SIZE, 0, loadImage("pieces/black/bk.png"), false);
+        bq = new Queen(300 / GAME_SIZE, 0, loadImage("pieces/black/bq.png"), false);
         blackPieces.add(bk);
         blackPieces.add(bq);
 
-        wk = new King(400 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wk.png"));
-        wq = new Queen(300 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wq.png"));
+        wk = new King(400 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wk.png"), true);
+        wq = new Queen(300 / GAME_SIZE, 700 / GAME_SIZE, loadImage("pieces/white/wq.png"), true);
         whitePieces.add(wk);
         whitePieces.add(wq);
 
@@ -76,10 +76,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wb.png");
         positionalIncrease = 200;
         for (int i = 0; i < 2; ++i) {
-            bbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 0, tmpload);
+            bbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 0, tmpload, false);
             blackPieces.add(bbishops[i]);
 
-            wbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
+            wbishops[i] = new Bishop(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2, true);
             whitePieces.add(wbishops[i]);
             positionalIncrease += 300;
         }
@@ -88,10 +88,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wn.png");
         positionalIncrease = 100;
         for (int i = 0; i < 2; ++i) {
-            bknights[i] = new Knight(positionalIncrease / GAME_SIZE, 0, tmpload);
+            bknights[i] = new Knight(positionalIncrease / GAME_SIZE, 0, tmpload, false);
             blackPieces.add(bknights[i]);
 
-            wknights[i] = new Knight(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
+            wknights[i] = new Knight(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2, true);
             whitePieces.add(wknights[i]);
             positionalIncrease += 500;
         }
@@ -100,10 +100,10 @@ void setup() {
         tmpload2 = loadImage("pieces/white/wr.png");
         positionalIncrease = 0;
         for (int i = 0; i < 2; ++i) {
-            brooks[i] = new Rook(positionalIncrease / GAME_SIZE, 0, tmpload);
+            brooks[i] = new Rook(positionalIncrease / GAME_SIZE, 0, tmpload, false);
             blackPieces.add(brooks[i]);
 
-            wrooks[i] = new Rook(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2);
+            wrooks[i] = new Rook(positionalIncrease / GAME_SIZE, 700 / GAME_SIZE, tmpload2, true);
             whitePieces.add(wrooks[i]);
             positionalIncrease += 700;
         }
@@ -199,8 +199,11 @@ void mousePressed() {
             assignPiece(p, tileClicked);
         }
     }
+
+    //Valid move code
     if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
-        println("Move", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
+        println(clickedPiece.specialHasMoved);
+        println("Moved", clickedPiece.isWhite ? "White" : "Black", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
         int[] tileClickedCoords = revertToCoords(tileClicked);
 
         //Redraw square from square piece moved from
@@ -211,7 +214,7 @@ void mousePressed() {
         clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
         clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
 
-        //Check for takes
+        //Check for takes & king/rook movement
         if (whitesTurn) {
             for (Piece p : blackPieces) {
                 checkTakePiece(p);
@@ -250,6 +253,14 @@ void checkTakePiece(Piece p) {
         //Plays movement audio if there was no take.
         sfiles[0].play();
     }
+    
+    /*
+    //Checking if king or rook moved
+    if (clickedPiece.name.equals("King") || clickedPiece.name.equals("Rook")) {
+        println("*****", clickedPiece.name);
+        clickedPiece.specialHasMoved = true;
+    }
+    */
 }
 
 void assignPiece(Piece p, String tileClicked) {

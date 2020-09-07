@@ -1,7 +1,7 @@
 class Bishop extends Piece {
 
-    Bishop(int xp, int yp, PImage ipath) {
-        super(xp, yp, ipath, "Bishop");
+    Bishop(int xp, int yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Bishop");
     }
 
     @Override

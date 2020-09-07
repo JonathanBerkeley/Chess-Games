@@ -1,7 +1,7 @@
 class Queen extends Piece {
     
-    Queen(int xp, int yp, PImage ipath) {
-        super(xp, yp, ipath, "Queen");
+    Queen(int xp, int yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Queen");
     }
     
     @Override

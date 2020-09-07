@@ -1,9 +1,7 @@
 class Rook extends Piece {
     
-    boolean hasMoved;
-    Rook(int xp, int yp, PImage ipath) {
-        super(xp, yp, ipath, "Rook");
-        this.hasMoved = false;
+    Rook(int xp, int yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Rook");
     }
     
     @Override
