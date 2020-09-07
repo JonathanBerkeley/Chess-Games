@@ -12,6 +12,7 @@ abstract class Piece {
         this.yPos = yPos;
         this.imgpath = imgpath;
         this.name = name;
+        this.specialHasMoved = false;
     }
 
     Piece(int xPos, int yPos, PImage imgpath, boolean isWhite, String name) {

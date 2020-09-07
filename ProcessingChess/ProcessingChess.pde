@@ -199,10 +199,9 @@ void mousePressed() {
             assignPiece(p, tileClicked);
         }
     }
-
+    
     //Valid move code
     if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
-        println(clickedPiece.specialHasMoved);
         println("Moved", clickedPiece.isWhite ? "White" : "Black", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
         int[] tileClickedCoords = revertToCoords(tileClicked);
 
@@ -224,7 +223,12 @@ void mousePressed() {
                 checkTakePiece(p);
             }
         }
-
+        
+        //Checking if king or rook moved
+        if (clickedPiece.name.equals("King") || clickedPiece.name.equals("Rook")) {
+            clickedPiece.specialHasMoved = true;
+        }
+        
         //Rerender piece to new square & play move audio
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
@@ -253,14 +257,6 @@ void checkTakePiece(Piece p) {
         //Plays movement audio if there was no take.
         sfiles[0].play();
     }
-    
-    /*
-    //Checking if king or rook moved
-    if (clickedPiece.name.equals("King") || clickedPiece.name.equals("Rook")) {
-        println("*****", clickedPiece.name);
-        clickedPiece.specialHasMoved = true;
-    }
-    */
 }
 
 void assignPiece(Piece p, String tileClicked) {
