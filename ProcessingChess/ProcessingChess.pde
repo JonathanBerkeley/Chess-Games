@@ -6,6 +6,7 @@ boolean unloaded = true;
 boolean whitesTurn;
 boolean chosePiece = false;
 SoundFile[] sfiles = new SoundFile[3];
+boolean muted = true;
 
 final boolean goFullscreen = false;
 final int GAME_SIZE = 1;
@@ -188,23 +189,14 @@ Piece clickedPiece;
 void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
-    //println(mouseX, mouseY, tileClicked);
 
     if (whitesTurn) {
         for (Piece p : whitePieces) {
-            if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
-                println(p.name, tileClicked, p);
-                println("Legal moves: ", p.getAllowedMoves());
-                clickedPiece = p;
-            }
+            assignPiece(p, tileClicked);
         }
     } else {
         for (Piece p : blackPieces) {
-            if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
-                println(p.name, p.xPos, p.yPos, tileClicked);
-                println("Legal moves: ", p.getAllowedMoves());
-                clickedPiece = p;
-            }
+            assignPiece(p, tileClicked);
         }
     }
     if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
@@ -222,11 +214,11 @@ void mousePressed() {
         //Check for takes
         if (whitesTurn) {
             for (Piece p : blackPieces) {
-                chk(p);
+                checkTakePiece(p);
             }
         } else {
             for (Piece p : whitePieces) {
-                chk(p);
+                checkTakePiece(p);
             }
         }
 
@@ -234,7 +226,6 @@ void mousePressed() {
         fill(get(clickedPiece.xPos, clickedPiece.yPos));
         rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
         image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
-
 
         //cleanup
         clickedPiece = null;
@@ -245,15 +236,26 @@ void mousePressed() {
 void draw() {
 }
 
-void chk(Piece p) {
+void checkTakePiece(Piece p) {
     if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
         //Play take audio
-        sfiles[1].play();
+        if (!muted) {
+            sfiles[1].play();
+        }
 
         //Move piece offscreen to deadbox
         p.xPos = -1000;
         p.yPos = -1000;
-    } else {
+    } else if (!muted) {
+        //Plays movement audio if there was no take.
         sfiles[0].play();
+    }
+}
+
+void assignPiece(Piece p, String tileClicked) {
+    if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
+        println(p.name, tileClicked, p);
+        println("Legal moves: ", p.getAllowedMoves());
+        clickedPiece = p;
     }
 }

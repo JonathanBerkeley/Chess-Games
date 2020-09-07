@@ -1,7 +1,9 @@
 class King extends Piece {
     
+    boolean hasMoved;
     King(int xp, int yp, PImage ipath) {
         super(xp, yp, ipath, "King");
+        this.hasMoved = false;
     }
     
     @Override
