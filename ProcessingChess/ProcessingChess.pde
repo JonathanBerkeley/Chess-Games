@@ -199,44 +199,57 @@ void mousePressed() {
             assignPiece(p, tileClicked);
         }
     }
-    
-    //Valid move code
-    if (clickedPiece != null && clickedPiece.getAllowedMoves().contains(tileClicked)) {
-        println("Moved", clickedPiece.isWhite ? "White" : "Black", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
-        int[] tileClickedCoords = revertToCoords(tileClicked);
 
-        //Redraw square from square piece moved from
-        fill(get(clickedPiece.xPos, clickedPiece.yPos));
-        rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
-
-        //Set piece position to new position
-        clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
-        clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
-
-        //Check for takes & king/rook movement
-        if (whitesTurn) {
-            for (Piece p : blackPieces) {
-                checkTakePiece(p);
-            }
-        } else {
-            for (Piece p : whitePieces) {
-                checkTakePiece(p);
-            }
+    if (clickedPiece != null) {
+        
+        //Section to add castling to allowed moves under correct conditions
+        if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved) {
+            /*
+            Allow castling if both pieces haven't moved yet this game, isn't in check,
+            squares passed through when castling aren't in check & no pieces in the way
+            */
+            
+            
         }
         
-        //Checking if king or rook moved
-        if (clickedPiece.name.equals("King") || clickedPiece.name.equals("Rook")) {
-            clickedPiece.specialHasMoved = true;
-        }
-        
-        //Rerender piece to new square & play move audio
-        fill(get(clickedPiece.xPos, clickedPiece.yPos));
-        rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
-        image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+        //Valid move code
+        if (clickedPiece.getAllowedMoves().contains(tileClicked)) {
+            println("Moved", clickedPiece.isWhite ? "White" : "Black", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
+            int[] tileClickedCoords = revertToCoords(tileClicked);
 
-        //cleanup
-        clickedPiece = null;
-        whitesTurn = !whitesTurn;
+            //Redraw square from square piece moved from
+            fill(get(clickedPiece.xPos, clickedPiece.yPos));
+            rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
+
+            //Set piece position to new position
+            clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
+            clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
+
+            //Check for takes & king/rook movement
+            if (whitesTurn) {
+                for (Piece p : blackPieces) {
+                    checkTakePiece(p);
+                }
+            } else {
+                for (Piece p : whitePieces) {
+                    checkTakePiece(p);
+                }
+            }
+
+            //Setting king or rook to moved, so castling is disabled
+            if (clickedPiece.name.equals("King") || clickedPiece.name.equals("Rook")) {
+                clickedPiece.specialHasMoved = true;
+            }
+
+            //Rerender piece to new square & play move audio
+            fill(get(clickedPiece.xPos, clickedPiece.yPos));
+            rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
+            image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+
+            //cleanup
+            clickedPiece = null;
+            whitesTurn = !whitesTurn;
+        }
     }
 }
 
