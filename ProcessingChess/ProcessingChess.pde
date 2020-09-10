@@ -186,6 +186,7 @@ void setup() {
 }
 
 Piece clickedPiece;
+Boolean kingLastClicked = false;
 void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
@@ -209,6 +210,11 @@ void mousePressed() {
             squares passed through when castling aren't in check & no pieces in the way
             */
             
+            
+            //map out literal action -- worry about logic later
+            getChessSquare(clickedPiece.xPos + (PIECE_SIZE * 2), clickedPiece.yPos);
+            
+            getChessSquare(clickedPiece.xPos + (PIECE_SIZE * 2), clickedPiece.yPos);
             
         }
         
@@ -250,6 +256,10 @@ void mousePressed() {
             clickedPiece = null;
             whitesTurn = !whitesTurn;
         }
+    } else if (kingLastClicked) {
+        //King last clicked and new square clicked did not contain piece:
+        
+        
     }
 }
 
