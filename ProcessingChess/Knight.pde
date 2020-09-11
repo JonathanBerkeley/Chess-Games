@@ -5,6 +5,10 @@ class Knight extends Piece {
     }
     
     @Override
+    void addSpecialMove(String move) {
+    }
+    
+    @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
         legalMoves.add(getChessSquare(this.xPos + 100, this.yPos + 200));

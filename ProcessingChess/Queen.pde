@@ -5,6 +5,10 @@ class Queen extends Piece {
     }
     
     @Override
+    void addSpecialMove(String move) {
+    }
+    
+    @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
         String line1, line2, line3, line4, piq;

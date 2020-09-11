@@ -4,12 +4,18 @@ class Pawn extends Piece {
         super(xp, yp, ipath, isWhite, "Pawn");
     }
     
+
+    
     boolean reachedEnd() {
         //TESTING
         if (this.yPos > SQUARE_SIZE * 6) {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    void addSpecialMove(String move) {
     }
     
     @Override

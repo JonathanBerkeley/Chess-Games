@@ -185,7 +185,7 @@ void setup() {
     println("Finished setting up");
 }
 
-Piece clickedPiece;
+Piece clickedPiece, kingClone;
 Boolean kingLastClicked = false;
 void mousePressed() {
     //Saves what piece is clicked on
@@ -202,22 +202,19 @@ void mousePressed() {
     }
 
     if (clickedPiece != null) {
-        
+
         //Section to add castling to allowed moves under correct conditions
-        if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved) {
+        if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved && !kingLastClicked) {
             /*
             Allow castling if both pieces haven't moved yet this game, isn't in check,
-            squares passed through when castling aren't in check & no pieces in the way
-            */
-            
-            
-            //map out literal action -- worry about logic later
-            getChessSquare(clickedPiece.xPos + (PIECE_SIZE * 2), clickedPiece.yPos);
-            
-            getChessSquare(clickedPiece.xPos + (PIECE_SIZE * 2), clickedPiece.yPos);
+             squares passed through when castling aren't in check & no pieces in the way
+             */
+            //kingLastClicked = true;
+            //kingClone = clickedPiece;
+            clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos + (SQUARE_SIZE * 2), clickedPiece.yPos));
             
         }
-        
+
         //Valid move code
         if (clickedPiece.getAllowedMoves().contains(tileClicked)) {
             println("Moved", clickedPiece.isWhite ? "White" : "Black", clickedPiece.name, getChessSquare(clickedPiece.xPos, clickedPiece.yPos), "to", tileClicked);
@@ -247,19 +244,15 @@ void mousePressed() {
                 clickedPiece.specialHasMoved = true;
             }
 
-            //Rerender piece to new square & play move audio
+            //Rerender piece to new square
             fill(get(clickedPiece.xPos, clickedPiece.yPos));
             rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
             image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
 
-            //cleanup
+            //Cleanup
             clickedPiece = null;
             whitesTurn = !whitesTurn;
         }
-    } else if (kingLastClicked) {
-        //King last clicked and new square clicked did not contain piece:
-        
-        
     }
 }
 
@@ -285,7 +278,6 @@ void checkTakePiece(Piece p) {
 void assignPiece(Piece p, String tileClicked) {
     if (getChessSquare(p.xPos, p.yPos).equals(tileClicked)) {
         println(p.name, tileClicked, p);
-        println("Legal moves: ", p.getAllowedMoves());
         clickedPiece = p;
     }
 }

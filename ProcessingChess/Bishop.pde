@@ -3,7 +3,11 @@ class Bishop extends Piece {
     Bishop(int xp, int yp, PImage ipath, Boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Bishop");
     }
-
+    
+    @Override
+    void addSpecialMove(String move) {
+    }
+    
     @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();

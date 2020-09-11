@@ -5,7 +5,7 @@ abstract class Piece {
     boolean isWhite;
     boolean specialHasMoved;
     PImage imgpath;
-    
+
 
     Piece(int xPos, int yPos, PImage imgpath, String name) {
         this.xPos = xPos;
@@ -25,4 +25,5 @@ abstract class Piece {
     }
 
     abstract ArrayList<String> getAllowedMoves();
+    abstract void addSpecialMove(String x);
 }
