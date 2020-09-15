@@ -185,11 +185,12 @@ void setup() {
     println("Finished setting up");
 }
 
-Piece clickedPiece, kingClone;
+Piece clickedPiece, castlingRook;
 Boolean kingLastClicked = false;
+Boolean castlingTrigger[] = {false, false}; //left, right
 void mousePressed() {
     //Saves what piece is clicked on
-    String tileClicked = getChessSquare((mouseX / 100) * 100, (mouseY / 100) * 100);
+    String tileClicked = getChessSquare((mouseX / SQUARE_SIZE) * SQUARE_SIZE, (mouseY / SQUARE_SIZE) * SQUARE_SIZE);
 
     if (whitesTurn) {
         for (Piece p : whitePieces) {
@@ -212,7 +213,7 @@ void mousePressed() {
             //kingLastClicked = true;
             //kingClone = clickedPiece;
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos + (SQUARE_SIZE * 2), clickedPiece.yPos));
-            
+            castlingTrigger[1] = true;
         }
 
         //Valid move code
@@ -244,10 +245,46 @@ void mousePressed() {
                 clickedPiece.specialHasMoved = true;
             }
 
+            //Castling code for rook
+            if (castlingTrigger[0] || castlingTrigger[1]) {
+                if (castlingTrigger[0]) {
+                }
+
+                if (castlingTrigger[1]) { //Right side castling
+                    if (whitesTurn) {
+                        for (Piece p : whitePieces) {
+                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1]) {
+                                castlingRook = p;
+                            }
+                        }
+                    } else {
+                        for (Piece p : blackPieces) {
+                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1]) {
+                                castlingRook = p;
+                            }
+                        }
+                    }
+                }
+                try {
+                    fill(get(castlingRook.xPos, castlingRook.yPos));
+                    rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
+
+                    castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) - (SQUARE_SIZE);
+
+                    image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+                } 
+                catch (Exception NullPointerException) {
+                }
+                //Cleanup
+                castlingRook = null;
+                castlingTrigger[0] = false;
+                castlingTrigger[1] = false;
+            }
+
             //Rerender piece to new square
             fill(get(clickedPiece.xPos, clickedPiece.yPos));
             rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
-            image(clickedPiece.imgpath, tileClickedCoords[0] / GAME_SIZE, tileClickedCoords[1] / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+            image(clickedPiece.imgpath, clickedPiece.xPos / GAME_SIZE, clickedPiece.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
 
             //Cleanup
             clickedPiece = null;
