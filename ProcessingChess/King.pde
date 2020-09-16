@@ -24,6 +24,7 @@ class King extends Piece {
         legalMoves.add(getChessSquare(this.xPos - SQUARE_SIZE, this.yPos - SQUARE_SIZE)); //bottom-left
         
         legalMoves.addAll(specialMoves);
+        specialMoves.clear();
         return legalMoves;
     }
 }

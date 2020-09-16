@@ -211,8 +211,9 @@ void mousePressed() {
              squares passed through when castling aren't in check & no pieces in the way
              */
             //kingLastClicked = true;
-            //kingClone = clickedPiece;
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos + (SQUARE_SIZE * 2), clickedPiece.yPos));
+            clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos - (SQUARE_SIZE * 2), clickedPiece.yPos));
+            castlingTrigger[0] = true;
             castlingTrigger[1] = true;
         }
 
@@ -247,34 +248,52 @@ void mousePressed() {
 
             //Castling code for rook
             if (castlingTrigger[0] || castlingTrigger[1]) {
-                if (castlingTrigger[0]) {
-                }
-
-                if (castlingTrigger[1]) { //Right side castling
+                if (castlingTrigger[0]) { //Left side castling
                     if (whitesTurn) {
                         for (Piece p : whitePieces) {
-                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1]) {
+                            if (p.xPos == (tileClickedCoords[0] - (SQUARE_SIZE * 2)) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
                             }
                         }
                     } else {
                         for (Piece p : blackPieces) {
-                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1]) {
+                            if (p.xPos == (tileClickedCoords[0] - (SQUARE_SIZE * 2)) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
                             }
                         }
                     }
-                }
-                try {
-                    fill(get(castlingRook.xPos, castlingRook.yPos));
-                    rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
+                    if (castlingRook != null) {
+                        fill(get(castlingRook.xPos, castlingRook.yPos));
+                        rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
-                    castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) - (SQUARE_SIZE);
+                        castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) + SQUARE_SIZE;
 
-                    image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
-                } 
-                catch (Exception NullPointerException) {
+                        image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+                    }
+                } else if (castlingTrigger[1]) { //Right side castling
+                    if (whitesTurn) {
+                        for (Piece p : whitePieces) {
+                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
+                                castlingRook = p;
+                            }
+                        }
+                    } else {
+                        for (Piece p : blackPieces) {
+                            if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
+                                castlingRook = p;
+                            }
+                        }
+                    }
+                    if (castlingRook != null) {
+                        fill(get(castlingRook.xPos, castlingRook.yPos));
+                        rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
+
+                        castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) - (SQUARE_SIZE);
+
+                        image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
+                    }
                 }
+
                 //Cleanup
                 castlingRook = null;
                 castlingTrigger[0] = false;
