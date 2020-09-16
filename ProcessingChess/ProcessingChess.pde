@@ -203,6 +203,7 @@ void mousePressed() {
     }
 
     if (clickedPiece != null) {
+        
 
         //Section to add castling to allowed moves under correct conditions
         if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved && !kingLastClicked) {
@@ -213,6 +214,8 @@ void mousePressed() {
             //kingLastClicked = true;
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos + (SQUARE_SIZE * 2), clickedPiece.yPos));
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos - (SQUARE_SIZE * 2), clickedPiece.yPos));
+            
+            //**** THIS NEEDS TO BE FIXED ****
             castlingTrigger[0] = true;
             castlingTrigger[1] = true;
         }
@@ -270,17 +273,20 @@ void mousePressed() {
 
                         image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
                     }
-                } else if (castlingTrigger[1]) { //Right side castling
+                } 
+                if (castlingTrigger[1]) { //Right side castling
                     if (whitesTurn) {
                         for (Piece p : whitePieces) {
                             if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
+                                println(castlingRook);
                             }
                         }
                     } else {
                         for (Piece p : blackPieces) {
                             if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
+                                println(castlingRook);
                             }
                         }
                     }
