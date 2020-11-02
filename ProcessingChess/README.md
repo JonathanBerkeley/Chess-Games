@@ -1,4 +1,4 @@
-UNFINISHED PROJECT
+UNFINISHED PROJECT (Missing special functionality, castling, pawn promotion)
 
 Chess in processing. First attempt at making virtual chess.
 
