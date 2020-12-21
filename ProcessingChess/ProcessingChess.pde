@@ -251,7 +251,7 @@ void mousePressed() {
 
             //Castling code for rook
             if (castlingTrigger[0] || castlingTrigger[1]) {
-                if (castlingTrigger[0]) { //Left side castling
+                if (castlingTrigger[0]) { //Left side castling --unworking
                     if (whitesTurn) {
                         for (Piece p : whitePieces) {
                             if (p.xPos == (tileClickedCoords[0] - (SQUARE_SIZE * 2)) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
