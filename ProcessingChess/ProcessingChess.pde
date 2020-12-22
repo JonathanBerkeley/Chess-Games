@@ -186,7 +186,6 @@ void setup() {
 }
 
 Piece clickedPiece, castlingRook;
-Boolean kingLastClicked = false;
 Boolean castlingTrigger[] = {false, false}; //left, right
 void mousePressed() {
     //Saves what piece is clicked on
@@ -206,18 +205,23 @@ void mousePressed() {
         
 
         //Section to add castling to allowed moves under correct conditions
-        if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved && !kingLastClicked) {
+        if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved) {
             /*
             Allow castling if both pieces haven't moved yet this game, isn't in check,
              squares passed through when castling aren't in check & no pieces in the way
              */
-            //kingLastClicked = true;
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos + (SQUARE_SIZE * 2), clickedPiece.yPos));
             clickedPiece.addSpecialMove(getChessSquare(clickedPiece.xPos - (SQUARE_SIZE * 2), clickedPiece.yPos));
             
-            //**** THIS NEEDS TO BE FIXED ****
-            castlingTrigger[0] = true;
-            castlingTrigger[1] = true;
+            //**** THIS NEEDS TO BE FIXED FURTHER ****
+            int desiredSquareX = revertToCoords(tileClicked)[0];
+            if (desiredSquareX < ((SQUARE_SIZE * 8) / 2)) {
+                castlingTrigger[0] = true; //left
+                castlingTrigger[1] = false;
+            } else {
+                castlingTrigger[0] = false;
+                castlingTrigger[1] = true;
+            }
         }
 
         //Valid move code
@@ -251,7 +255,7 @@ void mousePressed() {
 
             //Castling code for rook
             if (castlingTrigger[0] || castlingTrigger[1]) {
-                if (castlingTrigger[0]) { //Left side castling --unworking
+                if (castlingTrigger[0]) { //Left side castling
                     if (whitesTurn) {
                         for (Piece p : whitePieces) {
                             if (p.xPos == (tileClickedCoords[0] - (SQUARE_SIZE * 2)) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
@@ -279,14 +283,12 @@ void mousePressed() {
                         for (Piece p : whitePieces) {
                             if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
-                                println(castlingRook);
                             }
                         }
                     } else {
                         for (Piece p : blackPieces) {
                             if (p.xPos == (tileClickedCoords[0] + SQUARE_SIZE) && p.yPos == tileClickedCoords[1] && p.name == "Rook") {
                                 castlingRook = p;
-                                println(castlingRook);
                             }
                         }
                     }
