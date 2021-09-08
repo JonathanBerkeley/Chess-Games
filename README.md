@@ -1,2 +1,2 @@
-# Chess-games
+# Chess games
 Making multiple chess variants
