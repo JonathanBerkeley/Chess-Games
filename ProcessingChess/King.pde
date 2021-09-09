@@ -1,6 +1,10 @@
 class King extends Piece {
-    
     ArrayList<String> specialMoves = new ArrayList<String>();
+    
+    King(float xp, float yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "King");
+    }
+    
     King(int xp, int yp, PImage ipath, Boolean isWhite) {
         super(xp, yp, ipath, isWhite, "King");
     }

@@ -1,10 +1,12 @@
 class Pawn extends Piece {
 
-    Pawn(int xp, int yp, PImage ipath, boolean isWhite) {
+    Pawn(float xp, float yp, PImage ipath, boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Pawn");
     }
     
-
+    Pawn(int xp, int yp, PImage ipath, boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Pawn");
+    }
     
     boolean reachedEnd() {
         //TESTING
@@ -25,16 +27,16 @@ class Pawn extends Piece {
         
         //If black pawn
         if (!this.isWhite) {
-            tmp = getChessSquare(xPos, yPos + 100);
+            tmp = getChessSquare(xPos, yPos + SQUARE_SIZE);
             //Check if the square is empty
             if (checkFreeAtSquare(tmp, false)) {
                 legalMoves.add(tmp);
             }
-            if (yPos == 100) {
-                legalMoves.add(getChessSquare(xPos, yPos + 200));
+            if (yPos == SQUARE_SIZE) {
+                legalMoves.add(getChessSquare(xPos, yPos + SQUARE_SIZE * 2));
             }
-            takeSquareL = getChessSquare(xPos - 100, yPos + 100);
-            takeSquareR = getChessSquare(xPos + 100, yPos + 100);
+            takeSquareL = getChessSquare(xPos - SQUARE_SIZE, yPos + SQUARE_SIZE);
+            takeSquareR = getChessSquare(xPos + SQUARE_SIZE, yPos + SQUARE_SIZE);
             for (Piece p : whitePieces) {
                 if (getChessSquare(p.xPos, p.yPos).equals(takeSquareL)) {
                     legalMoves.add(takeSquareL);
@@ -45,16 +47,16 @@ class Pawn extends Piece {
         }
         //If white pawn
         else {
-            tmp = getChessSquare(xPos, yPos - 100);
+            tmp = getChessSquare(xPos, yPos - SQUARE_SIZE);
             if (checkFreeAtSquare(tmp, true)) {
                 legalMoves.add(tmp);
             }
             
             if (yPos == 600) {
-                legalMoves.add(getChessSquare(xPos, yPos - 200));
+                legalMoves.add(getChessSquare(xPos, yPos - SQUARE_SIZE * 2));
             }
-            takeSquareL = getChessSquare(xPos - 100, yPos - 100);
-            takeSquareR = getChessSquare(xPos + 100, yPos - 100);
+            takeSquareL = getChessSquare(xPos - SQUARE_SIZE, yPos - SQUARE_SIZE);
+            takeSquareR = getChessSquare(xPos + SQUARE_SIZE, yPos - SQUARE_SIZE);
             for (Piece p : blackPieces) {
                 if (getChessSquare(p.xPos, p.yPos).equals(takeSquareL)) {
                     legalMoves.add(takeSquareL);

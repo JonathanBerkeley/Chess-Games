@@ -1,5 +1,9 @@
 class Bishop extends Piece {
 
+    Bishop(float xp, float yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Bishop");
+    }
+    
     Bishop(int xp, int yp, PImage ipath, Boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Bishop");
     }
@@ -15,7 +19,7 @@ class Bishop extends Piece {
         String diagonal1, diagonal2, diagonal3, diagonal4, piq;
         //for (Piece pw : whitePieces) {
             //piq = getChessSquare(pw.xPos, pw.yPos);
-            for (int i = 100; i < 800; i += 100) {
+            for (int i = (int)SQUARE_SIZE; i < (int)(SQUARE_SIZE * 8); i += (int)SQUARE_SIZE) {
                 diagonal1 = getChessSquare(this.xPos + i, this.yPos + i);
                 diagonal2 = getChessSquare(this.xPos - i, this.yPos + i);
                 diagonal3 = getChessSquare(this.xPos - i, this.yPos - i);

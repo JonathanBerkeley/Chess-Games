@@ -9,9 +9,9 @@ SoundFile[] sfiles = new SoundFile[3];
 boolean muted = true;
 
 final boolean goFullscreen = false;
-final int GAME_SIZE = 1;
-final int PIECE_SIZE = 100 / GAME_SIZE;
-final int SQUARE_SIZE = 100 / GAME_SIZE;
+final float GAME_SIZE = 1.0;
+final float PIECE_SIZE = 100 / GAME_SIZE;
+final float SQUARE_SIZE = 100 / GAME_SIZE;
 final color W_TILE = color(245);
 final color B_TILE = color(75);
 
@@ -33,7 +33,7 @@ void settings() {
     if (goFullscreen) {
         fullScreen();
     } else {
-        size(800 / GAME_SIZE, 800 / GAME_SIZE);
+        size((int)(800 / GAME_SIZE), (int)(800 / GAME_SIZE));
     }
 }
 
@@ -127,7 +127,7 @@ void setup() {
         }
         spacingy += SQUARE_SIZE;
         if (whiteNext) {
-            spacingx = SQUARE_SIZE;
+            spacingx = (int)SQUARE_SIZE;
         } else {
             spacingx = 0;
         }
@@ -136,7 +136,7 @@ void setup() {
 
     //Black squares
     fill(B_TILE);
-    spacingx = SQUARE_SIZE;
+    spacingx = (int)SQUARE_SIZE;
     spacingy = 0;
     for (int z = 0; z < 8; ++z) {
         for (int i = 0; i < 4; ++i) {
@@ -147,7 +147,7 @@ void setup() {
         if (whiteNext) {
             spacingx = 0;
         } else {
-            spacingx = SQUARE_SIZE;
+            spacingx = (int)SQUARE_SIZE;
         }
         whiteNext = !whiteNext;
     }
@@ -187,6 +187,7 @@ void setup() {
 
 Piece clickedPiece, castlingRook;
 Boolean castlingTrigger[] = {false, false}; //left, right
+
 void mousePressed() {
     //Saves what piece is clicked on
     String tileClicked = getChessSquare((mouseX / SQUARE_SIZE) * SQUARE_SIZE, (mouseY / SQUARE_SIZE) * SQUARE_SIZE);
@@ -202,8 +203,6 @@ void mousePressed() {
     }
 
     if (clickedPiece != null) {
-        
-
         //Section to add castling to allowed moves under correct conditions
         if (clickedPiece.name.equals("King") && !clickedPiece.specialHasMoved) {
             /*
@@ -234,8 +233,11 @@ void mousePressed() {
             rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
             //Set piece position to new position
-            clickedPiece.xPos = tileClickedCoords[0] / GAME_SIZE;
-            clickedPiece.yPos = tileClickedCoords[1] / GAME_SIZE;
+            clickedPiece.xPos = (((int)(tileClickedCoords[0] / GAME_SIZE) + 99) / 100) * 100;
+            clickedPiece.yPos = (((int)(tileClickedCoords[1] / GAME_SIZE) + 99) / 100) * 100;
+            
+            cp("dbg xPos ", clickedPiece.xPos);
+            cp("dbg yPos ", clickedPiece.yPos);
 
             //Check for takes & king/rook movement
             if (whitesTurn) {
@@ -273,7 +275,7 @@ void mousePressed() {
                         fill(get(castlingRook.xPos, castlingRook.yPos));
                         rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
-                        castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) + SQUARE_SIZE;
+                        castlingRook.xPos = (((int)(tileClickedCoords[0] / GAME_SIZE) + 99) / 100) * 100;
 
                         image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
                     }
@@ -296,7 +298,7 @@ void mousePressed() {
                         fill(get(castlingRook.xPos, castlingRook.yPos));
                         rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
-                        castlingRook.xPos = (tileClickedCoords[0] / GAME_SIZE) - (SQUARE_SIZE);
+                        castlingRook.xPos = (int)((tileClickedCoords[0] / GAME_SIZE) - (SQUARE_SIZE));
 
                         image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
                     }

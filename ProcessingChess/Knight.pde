@@ -1,5 +1,9 @@
 class Knight extends Piece {
     
+    Knight(float xp, float yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Knight");
+    }
+    
     Knight(int xp, int yp, PImage ipath, Boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Knight");
     }
@@ -11,15 +15,15 @@ class Knight extends Piece {
     @Override
     ArrayList<String> getAllowedMoves() {
         ArrayList<String> legalMoves = new ArrayList<String>();
-        legalMoves.add(getChessSquare(this.xPos + 100, this.yPos + 200));
-        legalMoves.add(getChessSquare(this.xPos - 100, this.yPos + 200));
-        legalMoves.add(getChessSquare(this.xPos + 100, this.yPos - 200));
-        legalMoves.add(getChessSquare(this.xPos - 100, this.yPos - 200));
+        legalMoves.add(getChessSquare(this.xPos + SQUARE_SIZE, this.yPos + SQUARE_SIZE * 2));
+        legalMoves.add(getChessSquare(this.xPos - SQUARE_SIZE, this.yPos + SQUARE_SIZE * 2));
+        legalMoves.add(getChessSquare(this.xPos + SQUARE_SIZE, this.yPos - SQUARE_SIZE * 2));
+        legalMoves.add(getChessSquare(this.xPos - SQUARE_SIZE, this.yPos - SQUARE_SIZE * 2));
         
-        legalMoves.add(getChessSquare(this.xPos + 200, this.yPos + 100));
-        legalMoves.add(getChessSquare(this.xPos - 200, this.yPos + 100));
-        legalMoves.add(getChessSquare(this.xPos + 200, this.yPos - 100));
-        legalMoves.add(getChessSquare(this.xPos - 200, this.yPos - 100));
+        legalMoves.add(getChessSquare(this.xPos + SQUARE_SIZE * 2, this.yPos + SQUARE_SIZE));
+        legalMoves.add(getChessSquare(this.xPos - SQUARE_SIZE * 2, this.yPos + SQUARE_SIZE));
+        legalMoves.add(getChessSquare(this.xPos + SQUARE_SIZE * 2, this.yPos - SQUARE_SIZE));
+        legalMoves.add(getChessSquare(this.xPos - SQUARE_SIZE * 2, this.yPos - SQUARE_SIZE));
         return legalMoves;
     }
 }

@@ -3,7 +3,7 @@
 //Converts pixel coordinates to chess tile representation (e.g (x: 0, y: 0) = a8)
 String getChessSquare(int x, int y) {
     String result = "";
-    switch (x / SQUARE_SIZE) {
+    switch ((int)(x / SQUARE_SIZE)) {
         case 0:
             result += 'a';
             break;
@@ -32,7 +32,7 @@ String getChessSquare(int x, int y) {
             break;
     }
 
-    switch (y / SQUARE_SIZE) {
+    switch ((int)(y / SQUARE_SIZE)) {
         case 0:
             result += '8';
             break;
@@ -63,6 +63,10 @@ String getChessSquare(int x, int y) {
     return result;
 }
 
+String getChessSquare(float x, float y) {
+    return getChessSquare((int)x, (int)y);
+}
+
 //Converts chess tile coordinates back to screen coords (e.g  a8 = (0, 0))
 int[] revertToCoords(String chessSquare) {
     int coords[] = new int[2];
@@ -71,25 +75,25 @@ int[] revertToCoords(String chessSquare) {
             coords[0] = 0;
             break;
         case "b":
-            coords[0] = SQUARE_SIZE;
+            coords[0] = (int)SQUARE_SIZE;
             break;
         case "c":
-            coords[0] = SQUARE_SIZE * 2;
+            coords[0] = (int)(SQUARE_SIZE * 2);
             break;
         case "d":
-            coords[0] = SQUARE_SIZE * 3;
+            coords[0] = (int)(SQUARE_SIZE * 3);
             break;
         case "e":
-            coords[0] = SQUARE_SIZE * 4;
+            coords[0] = (int)(SQUARE_SIZE * 4);
             break;
         case "f":
-            coords[0] = SQUARE_SIZE * 5;
+            coords[0] = (int)(SQUARE_SIZE * 5);
             break;
         case "g":
-            coords[0] = SQUARE_SIZE * 6;
+            coords[0] = (int)(SQUARE_SIZE * 6);
             break;
         case "h":
-            coords[0] = SQUARE_SIZE * 7;
+            coords[0] = (int)(SQUARE_SIZE * 7);
             break;
         default:
             break;
@@ -97,25 +101,25 @@ int[] revertToCoords(String chessSquare) {
 
     switch (chessSquare.substring(1)) {
         case "1":
-            coords[1] = SQUARE_SIZE * 7;
+            coords[1] = (int)(SQUARE_SIZE * 7);
             break;
         case "2":
-            coords[1] = SQUARE_SIZE * 6;
+            coords[1] = (int)(SQUARE_SIZE * 6);
             break;
         case "3":
-            coords[1] = SQUARE_SIZE * 5;
+            coords[1] = (int)(SQUARE_SIZE * 5);
             break;
         case "4":
-            coords[1] = SQUARE_SIZE * 4;
+            coords[1] = (int)(SQUARE_SIZE * 4);
             break;
         case "5":
-            coords[1] = SQUARE_SIZE * 3;
+            coords[1] = (int)(SQUARE_SIZE * 3);
             break;
         case "6":
-            coords[1] = SQUARE_SIZE * 2;
+            coords[1] = (int)(SQUARE_SIZE * 2);
             break;
         case "7":
-            coords[1] = SQUARE_SIZE;
+            coords[1] = (int)SQUARE_SIZE;
             break;
         case "8":
             coords[1] = 0;
@@ -125,7 +129,6 @@ int[] revertToCoords(String chessSquare) {
     }
     return coords;
 }
-
 
 //Checks if square at given position is free of a team (returns true if empty square or ally)
 Boolean checkFreeAtSquare(String square, Boolean isWhitePiece) {
@@ -145,4 +148,19 @@ Boolean checkFreeAtSquare(String square, Boolean isWhitePiece) {
         }
     }
     return answer;
+}
+
+// Debug & dev functions
+void cp(String msg) {
+    println(msg);
+}
+
+void cp(String tag, Object msg) {
+    println(tag + ": " + msg);
+}
+
+void cp(ArrayList<String> msgs) {
+    for(String m : msgs) {
+        println(m);
+    }
 }

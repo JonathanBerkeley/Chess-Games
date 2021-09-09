@@ -1,5 +1,9 @@
 class Queen extends Piece {
     
+    Queen(float xp, float yp, PImage ipath, Boolean isWhite) {
+        super(xp, yp, ipath, isWhite, "Queen");
+    }
+    
     Queen(int xp, int yp, PImage ipath, Boolean isWhite) {
         super(xp, yp, ipath, isWhite, "Queen");
     }
@@ -13,7 +17,7 @@ class Queen extends Piece {
         ArrayList<String> legalMoves = new ArrayList<String>();
         String line1, line2, line3, line4, piq;
         String diagonal1, diagonal2, diagonal3, diagonal4;
-        for (int i = 100; i < 800; i += 100) {
+        for (int i = (int)SQUARE_SIZE; i < (int)(SQUARE_SIZE * 8); i += (int)SQUARE_SIZE) {
                 line1 = getChessSquare(this.xPos, this.yPos + i); //up
                 line2 = getChessSquare(this.xPos + i, this.yPos); //right
                 line3 = getChessSquare(this.xPos - i, this.yPos); //left
