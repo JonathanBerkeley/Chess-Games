@@ -10,8 +10,8 @@ boolean muted = true;
 
 final boolean goFullscreen = false;
 final float GAME_SIZE = 1.0;
-final float PIECE_SIZE = 100 / GAME_SIZE;
-final float SQUARE_SIZE = 100 / GAME_SIZE;
+final float PIECE_SIZE = 100.0 / GAME_SIZE;
+final float SQUARE_SIZE = 100.0 / GAME_SIZE;
 final color W_TILE = color(245);
 final color B_TILE = color(75);
 
@@ -108,7 +108,6 @@ void setup() {
             positionalIncrease += 700;
         }
     }
-
 
     //Draw board
     noStroke();
@@ -233,8 +232,8 @@ void mousePressed() {
             rect(clickedPiece.xPos, clickedPiece.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
             //Set piece position to new position
-            clickedPiece.xPos = (((int)(tileClickedCoords[0] / GAME_SIZE) + 99) / 100) * 100;
-            clickedPiece.yPos = (((int)(tileClickedCoords[1] / GAME_SIZE) + 99) / 100) * 100;
+            clickedPiece.xPos = (int)(tileClickedCoords[0] / GAME_SIZE);
+            clickedPiece.yPos = (int)(tileClickedCoords[1] / GAME_SIZE);
             
             cp("dbg xPos ", clickedPiece.xPos);
             cp("dbg yPos ", clickedPiece.yPos);
@@ -275,7 +274,7 @@ void mousePressed() {
                         fill(get(castlingRook.xPos, castlingRook.yPos));
                         rect(castlingRook.xPos, castlingRook.yPos, SQUARE_SIZE, SQUARE_SIZE);
 
-                        castlingRook.xPos = (((int)(tileClickedCoords[0] / GAME_SIZE) + 99) / 100) * 100;
+                        castlingRook.xPos = (int)(tileClickedCoords[0] / GAME_SIZE);
 
                         image(castlingRook.imgpath, castlingRook.xPos / GAME_SIZE, castlingRook.yPos / GAME_SIZE, PIECE_SIZE, PIECE_SIZE);
                     }
@@ -322,8 +321,7 @@ void mousePressed() {
     }
 }
 
-void draw() {
-}
+void draw() {}
 
 void checkTakePiece(Piece p) {
     if (getChessSquare(p.xPos, p.yPos).equals(getChessSquare(clickedPiece.xPos, clickedPiece.yPos))) {
